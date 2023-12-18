@@ -4,24 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="Stylesheet" href="Style.CSS">
+    <link rel="Stylesheet" href="./assest/Style.CSS">
     <title>Coding Quiz</title>
  
   </head>
   <body>
 
-    <div class="highscore">View your highscore!</div>
+    <div class="highscore"><a href="highscores.html">View your highscore!</a></div>
     <!--Stoled this code-->
     <div class="timer">Time: <span id="time">0</span></div>
     <!--start of the homepage-->
     <section class="wrapper"></div>
-    <div id="Home-page" class="start">
+    <div id="home-page" class="start">
         <h1>Coding Quiz</h1>
         <p>
             This test to is to see how knowledge base you are with HTML and CSS and JS! Friendly reminder anytime you get a answer wrong you will be penalize by 15 seconds! Be careful!
         </p>
         <button id="start">Let's Begin!</button>
     </section>
+    <div id="questions" class="hide">
+        <h2 id="question-title"></h2>
+        <div id="choices" class="choices"></div>
+
+    </div>
     <!--Stole this code-->
     <div id="end-screen" class="hide">
         <h2>You have completed your test!</h2>
@@ -35,5 +40,5 @@
       <div id="feedback" class="feedback hide"></div>
     </div>
 
-    <script src="./assest/questions.JS"></script>
+    <script src="./assest/script.js"></script>
   </body>
