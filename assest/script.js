@@ -29,53 +29,62 @@ var submitBtn = document.getElementById('submit');
 var startBtn = document.getElementById('start');
 var initials = document.getElementById('initials');
 var feedback = document.getElementById('feedback');
-
+var timerId;
 var startBtn = document.getElementById('start');
-startBtn.addEventListener('click', startQuiz);
+var time = 0;
 
+var questionsEl = document.getElementById('questions');
+var timerEl = document.getElementById('time');
+var choicesEl = document.getElementById('choices');
+var submitBtn = document.getElementById('submit');
+var startBtn = document.getElementById('start');
+var initials = document.getElementById('initials');
+var feedback = document.getElementById('feedback');
+var timerId;
+var time = 0;
+
+startBtn.addEventListener('click', startQuiz);
+submitBtn.addEventListener('click', function () {
+  submitScore();
+});
 
 function startQuiz() {
-  // hide start screen
+  time = questions.length * 10; 
+  currentQuestionIndex = 0;
+
   var startScreenEl = document.getElementById('home-page');
   startScreenEl.setAttribute('class', 'hide');
 
-  // un-hide questions section
   questionsEl.removeAttribute('class');
 
-  // start timer
   startTimer();
+  timerId = setInterval(clockTick, 1000);
 
-  // show starting time
   timerEl.textContent = time;
 
   getQuestion();
 }
 
 function startTimer() {
-  time = questions.length * 60;
+  timerId = setInterval(function () {
+    time--;
 
-  timerId = setInterval(function() {
-    if (time > 0) {
-      time--;
-      timerEl.textContent = 'Time: ' + time;
+    if (time <= 0) {
+      clearInterval(timerId);
+      endQuiz();
     }
-  });
+  }, 1000);
 }
 
 function getQuestion() {
-  // get current question object from array
   var currentQuestion = questions[currentQuestionIndex];
 
-  // update title with current question
   var titleEl = document.getElementById('question-title');
   titleEl.textContent = currentQuestion.title;
 
-  // clear out any old question choices
   choicesEl.innerHTML = '';
 
-  // loop over choices
   for (var i = 0; i < currentQuestion.choices.length; i++) {
-    // create new button for each choice
     var choice = currentQuestion.choices[i];
     var choiceNode = document.createElement('button');
     choiceNode.setAttribute('class', 'choice');
@@ -83,56 +92,66 @@ function getQuestion() {
 
     choiceNode.textContent = i + 1 + '. ' + choice;
 
-    // attach click event listener to each choice
-    choiceNode.addEventListener('click', function(event) {
+    choiceNode.addEventListener('click', function (event) {
       var selectedChoice = event.target.value;
       handleChoice(selectedChoice);
     });
 
-    // display on the page
     choicesEl.appendChild(choiceNode);
   }
 }
 
 function handleChoice(choice) {
   console.log('Chosen choice:', choice);
+  var currentQuestion = questions[currentQuestionIndex];
 
-  // Move to the next question
+  if (choice === currentQuestion.answer) {
+    feedback.textContent = 'Correct!';
+  } else {
+    feedback.textContent = 'Wrong!';
+    time -= 10; // Penalty for wrong answer
+  }
+
   currentQuestionIndex++;
 
-  // Check if there are more questions
   if (currentQuestionIndex < questions.length) {
-      // If there are more questions, show the next question
-      getQuestion();
+    getQuestion();
   } else {
-      // If no more questions, end the quiz or show the results
-      endQuiz();
+    endQuiz();
   }
 }
 
 function endQuiz() {
-    // stop timer
-    clearInterval(timerId);
+  clearInterval(timerId);
 
-    // show end screen
-    var endScreenEl = document.getElementById('end-screen');
-    endScreenEl.removeAttribute('class');
-  
-    // show final score
-    var finalScoreEl = document.getElementById('final-score');
-    finalScoreEl.textContent = time;
-  
-    // hide questions section
-    questionsEl.setAttribute('class', 'hide');
+  var endScreenEl = document.getElementById('end-screen');
+  endScreenEl.removeAttribute('class');
+
+  var finalScoreEl = document.getElementById('final-score');
+  finalScoreEl.textContent = time;
+
+  questionsEl.setAttribute('class', 'hide');
+}
+
+function clockTick() {
+  time--;
+  timerEl.textContent = time;
+
+  if (time <= 0) {
+    endQuiz();
   }
-  
-  function clockTick() {
-    // update time
-    time--;
-    timerEl.textContent = time;
-  
-    // check if user ran out of time
-    if (time <= 0) {
-      quizEnd();
-    }
+}
+
+function submitScore() {
+  clearInterval(timerId);
+
+  var userInitials = initials.value.trim();
+
+  if (userInitials !== '') {
+    // Store or handle the user's score and initials as needed
+    
+    window.localStorage.setItem('highscore', JSON.stringify(highscore));
+
+    window.location.href = 'scoreBoard.html';
+  }
 }
