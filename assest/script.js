@@ -28,24 +28,13 @@ var choicesEl = document.getElementById('choices');
 var submitBtn = document.getElementById('submit');
 var startBtn = document.getElementById('start');
 var initials = document.getElementById('initials');
-var feedback = document.getElementById('feedback');
-var timerId;
-var startBtn = document.getElementById('start');
-var time = 0;
-
-var questionsEl = document.getElementById('questions');
-var timerEl = document.getElementById('time');
-var choicesEl = document.getElementById('choices');
-var submitBtn = document.getElementById('submit');
-var startBtn = document.getElementById('start');
-var initials = document.getElementById('initials');
-var feedback = document.getElementById('feedback');
 var timerId;
 var time = 0;
 
 startBtn.addEventListener('click', startQuiz);
 submitBtn.addEventListener('click', function () {
   submitScore();
+  
 });
 
 function startQuiz() {
@@ -57,7 +46,7 @@ function startQuiz() {
 
   questionsEl.removeAttribute('class');
 
-  startTimer();
+  // startTimer();
   timerId = setInterval(clockTick, 1000);
 
   timerEl.textContent = time;
@@ -73,6 +62,7 @@ function startTimer() {
       clearInterval(timerId);
       endQuiz();
     }
+    clockTick();
   }, 1000);
 }
 
@@ -122,15 +112,15 @@ function handleChoice(choice) {
 }
 
 function endQuiz() {
-  clearInterval(timerId);
 
   var endScreenEl = document.getElementById('end-screen');
   endScreenEl.removeAttribute('class');
 
   var finalScoreEl = document.getElementById('final-score');
   finalScoreEl.textContent = time;
-
+  clearInterval(timerId);
   questionsEl.setAttribute('class', 'hide');
+  
 }
 
 function clockTick() {
@@ -139,19 +129,23 @@ function clockTick() {
 
   if (time <= 0) {
     endQuiz();
+    clearInterval(timerId);
   }
 }
 
 function submitScore() {
-  clearInterval(timerId);
+  // clearInterval(timerId);
 
   var userInitials = initials.value.trim();
 
   if (userInitials !== '') {
-    // Store or handle the user's score and initials as needed
-    
+   
+    highscore = Math.max(highscore, time);
+
     window.localStorage.setItem('highscore', JSON.stringify(highscore));
 
     window.location.href = 'scoreBoard.html';
   }
-}
+};
+
+
