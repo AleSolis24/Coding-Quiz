@@ -1,21 +1,40 @@
 function highscore() {
-    // stole this code
-    var scoredBoard = JSON.parse(localStorage.getItem("highScore"))
-    if (!scoredBoard) {
-        var scoredBoard = {
-            initals: [],
-            score: []
-        }
-    }
-    for (var i = 0; i < userScoresObject.initial.length; i++) {
+    // Corrected variable name to use
+
+    var scores = {}; try {
+        scores = JSON.parse(window.localStorage.getItem('highScore') || '{}');
+      } catch(err) {
+        scores = {};
+      };
+  
+     scores.initials = scores.initials || [];
+     scores.score = scores.score || [];
+
+     console.log(scores);
+
+
+
+    for (var i = 0; i < scores.initials.length; i++) {
         var li = document.createElement("li");
-        li.textContent = "scores: " + userScoresObject.initial[i] + " " +  userScoresObject.score[i]
+
+        li.textContent = scores.initials[i] + " " +  scores.score[i];
+
+        console.log(scores.initials[i])
+        console.log(scores.score[i])
+
+        // // Assuming you want to append the list item to an element with id 'score-list'
+        document.getElementById('highscores').appendChild(li);
+
     }
-};
+}
 
-// this is allowing the user to reset there highscore
-function restHighscore () {
-    window.location.reload();
-};
 
+// Corrected function name to resetHighscore
+function resetHighscore() {
+    localStorage.removeItem("highScore");
+    // Assuming you want to refresh the displayed scores after resetting
+    highscore();
+}
+
+// Call highscore function to display scores
 highscore();
