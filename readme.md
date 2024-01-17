@@ -24,13 +24,15 @@ THEN I can save my initials and my score
 
 
 ## Preview
-![Alt text](<Screenshot 2024-01-16 210254.png>)
-![Alt text](<Screenshot 2024-01-16 210316.png>)
-![Alt text](<Screenshot 2024-01-16 210330.png>)
-![Alt text](<Screenshot 2024-01-16 210453.png>)
+![Alt text](<./assest/images/Screenshot 2024-01-16 210254.png>)
+![Alt text](<./assest/images/Screenshot 2024-01-16 210316.png>)
+![Alt text](<./assest/images/Screenshot 2024-01-16 210330.png>)
+![Alt text](<./assest/images/Screenshot 2024-01-16 210453.png>)
 
 
+## Deployment link 
 
+https://alesolis24.github.io/Coding-Quiz/
 
 ## Credit 
 I had alot of help from my insturter and Xpert learning 
